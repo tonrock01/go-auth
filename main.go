@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"github.com/tonrock01/go-test-auth/db"
-	"github.com/tonrock01/go-test-auth/router"
+	"github.com/tonrock01/go-test-auth/handler"
 )
 
 func main() {
@@ -25,9 +27,9 @@ func main() {
 		return c.SendString("Hello, World!")
 	})
 
-	app.Get("/getcurrent", router.GetCurrentUser)
-	app.Post("/signup", router.SignUpUser)
-	app.Post("/signin", router.SignInUser)
+	app.Get("/getcurrent", handler.GetCurrentUser)
+	app.Post("/signup", handler.SignUpUser)
+	app.Post("/signin", handler.SignInUser)
 
-	app.Listen(":8080")
+	log.Fatal(app.Listen(os.Getenv("SERVER_PORT")))
 }
