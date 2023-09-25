@@ -10,6 +10,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/tonrock01/go-test-auth/db"
 	"github.com/tonrock01/go-test-auth/handler"
+	"github.com/tonrock01/go-test-auth/middleware"
 )
 
 func main() {
@@ -27,9 +28,9 @@ func main() {
 		return c.SendString("Hello, World!")
 	})
 
-	app.Get("/getcurrent", handler.GetCurrentUser)
 	app.Post("/signup", handler.SignUpUser)
 	app.Post("/signin", handler.SignInUser)
+	app.Get("/getcurrent", middleware.AuthMiddleware(), handler.GetCurrentUser)
 
 	log.Fatal(app.Listen(os.Getenv("SERVER_PORT")))
 }
